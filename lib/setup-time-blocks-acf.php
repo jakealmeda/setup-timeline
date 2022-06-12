@@ -110,26 +110,43 @@ function setup_timeline_templates( $field ) {
  * Auto fill Checkbox options | Fields to Show
  *
  */
-/*add_filter( 'acf/load_field/name=blocks-show-fields', 'acf_setup_binfo_field_choices' ); // MULTI - ENTRIES
-function acf_setup_binfo_field_choices( $field ) {
-    
-    $z = new SetupBlocksVariables();
+add_filter( 'acf/load_field/name=timeline-taxonomy', 'setup_timeline_taxes' ); // MULTI - ENTRIES
+function setup_timeline_taxes( $field ) {
 
     $field['choices'] = array();
 
-    $fielders = $z->setup_block_fields();
-    if( is_array( $fielders ) ) :
-        
-        foreach( $fielders as $key => $value ) {
-            $field['choices'][$key] = $value;
-            //$field['disabled'] = 1;
-        }
-
-        return $field;
-
-    endif;
+    $u = new SetupTimeVariables();
     
-}*/
+    foreach( get_taxonomies() as $key => $value ) {
+
+        if( !in_array( $key, $u->setup_timeline_not_from_these_taxonomies()  ) ) :
+            /*var_dump( get_taxonomy( $value ) );
+            echo get_taxonomy( $value )->name.' | '.get_taxonomy( $value )->label; 
+            echo '<hr />';*/
+            // filter out those that are empty
+            if( count( get_terms( get_taxonomy( $value )->name ) ) >= 1 ) {
+
+                $field['choices'][$key] = get_taxonomy( $value )->labels->singular_name;
+
+                /*echo '<span style="color:blue;">';
+                    var_dump( get_taxonomy( $value ) );
+                echo '</span>';*/
+                /*$tax_terms = get_terms( get_taxonomy( $value )->name );
+                var_dump( $tax_terms );
+                for( $e=0; $e<=( count( $tax_terms ) - 1 ); $e++ ) {
+                    echo '<h3>'.$tax_terms[ $e ]->name.'</h3>';
+                    echo '<h3>'.$tax_terms[ $e ]->slug.'</h3>';
+                }
+                echo '<hr />';*/
+            }
+
+        endif;
+
+    }
+
+    return $field;
+    
+}
 
 
 /**

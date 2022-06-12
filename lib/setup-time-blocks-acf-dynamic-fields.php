@@ -1,5 +1,32 @@
 <?php
 
+//if( function_exists('acf_add_local_field_group') ):
+
+	/*acf_add_local_field_group(array(
+		'key' => 'group_1',
+		'title' => 'My Group',
+		'fields' => array (),
+		'location' => array (
+			array (
+				array (
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'post',
+				),
+			),
+		),
+	));*/
+
+/*	acf_add_local_field(array(
+		'key' => 'field_1',
+		'label' => 'Sub Title',
+		'name' => 'sub_title',
+		'type' => 'text',
+		'parent' => 'group_629f6afa5bd7c'
+	));
+
+endif;*/
+
 add_action('acf/init', 'my_acf_add_local_field_groups');
 function my_acf_add_local_field_groups() {
 //if( function_exists('acf_add_local_field_group') ) :
@@ -7,41 +34,63 @@ function my_acf_add_local_field_groups() {
 
 	// make a list of taxonomy as option
 	foreach( get_taxonomies() as $key => $value ) {
+
 		if( !in_array( $key, $u->setup_timeline_not_from_these_taxonomies()  ) ) :
-			//echo $key.' ==== '.$value.'<br />';
-			$tax_choices[ $key ] = $value;
+			
+			//$tax_choices[ $key ] = $value;
+			// filter out those that are empty
+			$tax_terms = get_terms( get_taxonomy( $value )->name )
+            if( count( $tax_terms ) >= 1 ) {
+
+                /*echo '<span style="color:blue;">';
+                    var_dump( get_taxonomy( $value ) );
+                echo '</span>';*/
+                
+                for( $e=0; $e<=( count( $tax_terms ) - 1 ); $e++ ) {
+                    //echo '<h3>'.$tax_terms[ $e ]->name.'</h3>';
+                    //echo '<h3>'.$tax_terms[ $e ]->slug.'</h3>';
+                    $tax_choices[ $tax_terms[ $e ]->slug ] = $tax_terms[ $e ]->name;
+                }
+                
+
+
+                acf_add_local_field(
+
+					array(
+
+						'key' => 'field_'.uniqid(),
+						'label' => get_taxonomy( $value )->label,
+						'name' => 'timeline-'.get_taxonomy( $value )->name,
+						'type' => 'checkbox',
+						'instructions' => '',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'choices' => $tax_choices,
+						'default_value' => false,
+						'allow_null' => 0,
+						'multiple' => 0,
+						'ui' => 0,
+						'return_format' => 'value',
+						'ajax' => 0,
+						'placeholder' => '',
+						'parent' => 'group_629f6afa5bd7c'
+
+					)
+
+				);
+
+            }
+
 		endif;
+
 	}
 	
-	acf_add_local_field(
-
-		array(
-
-			'key' => 'field_'.uniqid(),
-			'label' => 'Taxonomy',
-			'name' => 'timeline-taxonomy',
-			'type' => 'checkbox',
-			'instructions' => '',
-			'required' => 0,
-			'conditional_logic' => 0,
-			'wrapper' => array(
-				'width' => '',
-				'class' => '',
-				'id' => '',
-			),
-			'choices' => $tax_choices,
-			'default_value' => false,
-			'allow_null' => 0,
-			'multiple' => 0,
-			'ui' => 0,
-			'return_format' => 'value',
-			'ajax' => 0,
-			'placeholder' => '',
-			'parent' => 'group_629f6afa5bd7c'
-
-		)
-
-	);
+	
 	/*
 	acf_add_local_field_group(array(
 		'key' => 'group_629f6afa5bd7c',
@@ -91,10 +140,10 @@ function my_acf_add_local_field_groups() {
 				'save_custom' => 0,
 			),
 			array(
-				'key' => 'field_62a55f1bf160c',
+				'key' => 'field_62a59a885eec2',
 				'label' => 'Taxonomy',
 				'name' => 'timeline-taxonomy',
-				'type' => 'select',
+				'type' => 'checkbox',
 				'instructions' => '',
 				'required' => 0,
 				'conditional_logic' => 0,
@@ -103,14 +152,81 @@ function my_acf_add_local_field_groups() {
 					'class' => '',
 					'id' => '',
 				),
-				'choices' => $tax_choices,
-				'default_value' => false,
-				'allow_null' => 0,
-				'multiple' => 0,
-				'ui' => 0,
+				'choices' => array(
+					'category' => 'Category',
+					'post_tag' => 'Tag',
+					'link_category' => 'Link Category',
+					'movie_trailer' => 'Movie Trailer',
+				),
+				'allow_custom' => 0,
+				'default_value' => array(
+				),
+				'layout' => 'horizontal',
+				'toggle' => 0,
 				'return_format' => 'value',
-				'ajax' => 0,
-				'placeholder' => '',
+				'save_custom' => 0,
+			),
+			array(
+				'key' => 'field_62a59fdfce9e5',
+				'label' => 'Tax 1',
+				'name' => 'tax_1',
+				'type' => 'checkbox',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_62a59a885eec2',
+							'operator' => '==',
+							'value' => 'category',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'choices' => array(
+				),
+				'allow_custom' => 0,
+				'default_value' => array(
+				),
+				'layout' => 'vertical',
+				'toggle' => 0,
+				'return_format' => 'value',
+				'save_custom' => 0,
+			),
+			array(
+				'key' => 'field_62a59ff9ce9e6',
+				'label' => 'Tax 2',
+				'name' => 'tax_2',
+				'type' => 'checkbox',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_62a59a885eec2',
+							'operator' => '==',
+							'value' => 'post_tag',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'choices' => array(
+				),
+				'allow_custom' => 0,
+				'default_value' => array(
+				),
+				'layout' => 'vertical',
+				'toggle' => 0,
+				'return_format' => 'value',
+				'save_custom' => 0,
 			),
 			array(
 				'key' => 'field_62a400a35cab3',
@@ -231,7 +347,8 @@ function my_acf_add_local_field_groups() {
 		'active' => true,
 		'description' => '',
 		'show_in_rest' => 0,
-	));*/
+	));
+*/
 
 //endif;
 }

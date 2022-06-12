@@ -13,7 +13,7 @@ class SetupTimeMainExt {
      */
     public function setup_timeline_relationships( $data ) {
         
-        var_dump( $data );
+        //var_dump( $data );
 
         if( array_key_exists( 'time_post_type', $data ) && !empty( $data[ 'time_post_type' ] ) ) {
 
