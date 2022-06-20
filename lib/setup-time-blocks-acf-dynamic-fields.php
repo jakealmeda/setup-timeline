@@ -27,6 +27,11 @@
 
 endif;*/
 
+/*
+testuser
+T3st_us3r-01
+*/
+
 add_action('acf/init', 'my_acf_add_local_field_groups');
 function my_acf_add_local_field_groups() {
 //if( function_exists('acf_add_local_field_group') ) :
@@ -39,7 +44,7 @@ function my_acf_add_local_field_groups() {
 			
 			//$tax_choices[ $key ] = $value;
 			// filter out those that are empty
-			$tax_terms = get_terms( get_taxonomy( $value )->name )
+			$tax_terms = get_terms( get_taxonomy( $value )->name );
             if( count( $tax_terms ) >= 1 ) {
 
                 /*echo '<span style="color:blue;">';
@@ -47,11 +52,16 @@ function my_acf_add_local_field_groups() {
                 echo '</span>';*/
                 
                 for( $e=0; $e<=( count( $tax_terms ) - 1 ); $e++ ) {
-                    //echo '<h3>'.$tax_terms[ $e ]->name.'</h3>';
-                    //echo '<h3>'.$tax_terms[ $e ]->slug.'</h3>';
-                    $tax_choices[ $tax_terms[ $e ]->slug ] = $tax_terms[ $e ]->name;
+
+                	if( isset( $tax_terms[ $e ] ) ) {
+	                    //echo '<h3>'.$tax_terms[ $e ]->name.'</h3>';
+	                    //echo '<h3>'.$tax_terms[ $e ]->slug.'</h3>';
+	                    $tax_choices[ $tax_terms[ $e ]->slug ] = $tax_terms[ $e ]->name;
+	                }
+
                 }
-                
+                var_dump( $tax_choices );
+                die;
 
 
                 acf_add_local_field(

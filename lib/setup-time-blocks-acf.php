@@ -124,20 +124,26 @@ function setup_timeline_taxes( $field ) {
             echo get_taxonomy( $value )->name.' | '.get_taxonomy( $value )->label; 
             echo '<hr />';*/
             // filter out those that are empty
-            if( count( get_terms( get_taxonomy( $value )->name ) ) >= 1 ) {
+            $tax_terms = get_terms( get_taxonomy( $value )->name );
+            if( count( $tax_terms ) >= 1 ) {
 
                 $field['choices'][$key] = get_taxonomy( $value )->labels->singular_name;
 
-                /*echo '<span style="color:blue;">';
-                    var_dump( get_taxonomy( $value ) );
-                echo '</span>';*/
-                /*$tax_terms = get_terms( get_taxonomy( $value )->name );
-                var_dump( $tax_terms );
+                echo '<span style="color:blue;">';
+                    //var_dump( get_taxonomy( $value ) );
+                    echo 'setup-time-blocks-acf.php';
+                echo '</span>';
+                
+                //var_dump( $tax_terms );
                 for( $e=0; $e<=( count( $tax_terms ) - 1 ); $e++ ) {
-                    echo '<h3>'.$tax_terms[ $e ]->name.'</h3>';
-                    echo '<h3>'.$tax_terms[ $e ]->slug.'</h3>';
+
+                    if( isset( $tax_terms[ $e ] ) ) {
+                        echo '<h3>'.$tax_terms[ $e ]->name.' | '.$tax_terms[ $e ]->slug.'</h3>';
+                        //var_dump( $tax_terms );
+                    }
+
                 }
-                echo '<hr />';*/
+                echo '<hr />';
             }
 
         endif;
