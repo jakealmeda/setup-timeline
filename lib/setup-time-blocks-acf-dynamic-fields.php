@@ -36,7 +36,7 @@ add_action('acf/init', 'my_acf_add_local_field_groups');
 function my_acf_add_local_field_groups() {
 //if( function_exists('acf_add_local_field_group') ) :
 	$u = new SetupTimeVariables();
-
+	echo '<span style="color:green;">'; var_dump( get_taxonomies() ); echo '</span>';
 	// make a list of taxonomy as option
 	foreach( get_taxonomies() as $key => $value ) {
 

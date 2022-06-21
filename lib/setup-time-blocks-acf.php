@@ -116,7 +116,7 @@ function setup_timeline_taxes( $field ) {
     $field['choices'] = array();
 
     $u = new SetupTimeVariables();
-    
+    echo '<span style="color:orange;">'; var_dump( get_taxonomies() ); echo '</span>';
     foreach( get_taxonomies() as $key => $value ) {
 
         if( !in_array( $key, $u->setup_timeline_not_from_these_taxonomies()  ) ) :
