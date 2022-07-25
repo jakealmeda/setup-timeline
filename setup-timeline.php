@@ -82,6 +82,7 @@ class SetupTimeVariables {
 // include files
 include_once( 'lib/setup-time-blocks-generator.php' );
 include_once( 'lib/setup-time-blocks-acf.php' );
-//include_once( 'lib/setup-time-blocks-acf-dynamic-fields.php' );
+include_once( 'lib/setup-time-blocks-functions-tax.php' );
+include_once( 'lib/setup-time-blocks-acf-dynamic-fields.php' );
 include_once( 'lib/setup-time-blocks-functions-extension.php' );
 include_once( 'lib/setup-time-blocks-functions.php' );

@@ -116,7 +116,7 @@ function setup_timeline_taxes( $field ) {
     $field['choices'] = array();
 
     $u = new SetupTimeVariables();
-    echo '<span style="color:orange;">'; var_dump( get_taxonomies() ); echo '</span>';
+//    echo '<span style="color:orange;">'; var_dump( get_taxonomies() ); echo '</span>';
     foreach( get_taxonomies() as $key => $value ) {
 
         if( !in_array( $key, $u->setup_timeline_not_from_these_taxonomies()  ) ) :
@@ -129,21 +129,21 @@ function setup_timeline_taxes( $field ) {
 
                 $field['choices'][$key] = get_taxonomy( $value )->labels->singular_name;
 
-                echo '<span style="color:blue;">';
+/*                echo '<span style="color:blue;">';
                     //var_dump( get_taxonomy( $value ) );
                     echo 'setup-time-blocks-acf.php';
-                echo '</span>';
+                echo '</span>';*/
                 
                 //var_dump( $tax_terms );
                 for( $e=0; $e<=( count( $tax_terms ) - 1 ); $e++ ) {
 
                     if( isset( $tax_terms[ $e ] ) ) {
-                        echo '<h3>'.$tax_terms[ $e ]->name.' | '.$tax_terms[ $e ]->slug.'</h3>';
+//                        echo '<h3>'.$tax_terms[ $e ]->name.' | '.$tax_terms[ $e ]->slug.'</h3>';
                         //var_dump( $tax_terms );
                     }
 
                 }
-                echo '<hr />';
+//                echo '<hr />';
             }
 
         endif;
